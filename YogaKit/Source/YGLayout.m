@@ -481,20 +481,10 @@ static void YGApplyLayoutToViewHierarchy(UIView* view, BOOL preserveOrigin) {
   };
 
   const CGPoint origin = preserveOrigin ? view.frame.origin : CGPointZero;
-  view.frame = (CGRect){
-      .origin =
-          {
-              .x = YGRoundPixelValue(topLeft.x + origin.x),
-              .y = YGRoundPixelValue(topLeft.y + origin.y),
-          },
-      .size =
-          {
-              .width = YGRoundPixelValue(bottomRight.x) -
-                  YGRoundPixelValue(topLeft.x),
-              .height = YGRoundPixelValue(bottomRight.y) -
-                  YGRoundPixelValue(topLeft.y),
-          },
-  };
+  const CGFloat width = YGRoundPixelValue(bottomRight.x) - YGRoundPixelValue(topLeft.x);
+  const CGFloat height = YGRoundPixelValue(bottomRight.y) - YGRoundPixelValue(topLeft.y);
+  view.center = CGPointMake(YGRoundPixelValue(topLeft.x + origin.x + width / 2.0), YGRoundPixelValue(topLeft.y + origin.y + height / 2.0));
+  view.bounds = CGRectMake(0.0, 0.0, width, height);
 
   if (!yoga.isLeaf) {
     for (NSUInteger i = 0; i < view.subviews.count; i++) {
