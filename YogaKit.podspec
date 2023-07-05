@@ -5,7 +5,7 @@
 
 podspec = Pod::Spec.new do |spec|
   spec.name = 'YogaKit'
-  spec.version = '1.18.1'
+  spec.version = '1.20.0'
   spec.license =  { :type => 'MIT', :file => "LICENSE" }
   spec.homepage = 'https://facebook.github.io/yoga/'
   spec.documentation_url = 'https://facebook.github.io/yoga/docs/'
@@ -15,15 +15,14 @@ podspec = Pod::Spec.new do |spec|
 
   spec.authors = 'Facebook'
   spec.source = {
-    :git => 'https://github.com/facebook/yoga.git',
-    :tag => "1.18.0",
+    :git => 'https://github.com/ultimate-deej/yoga.git',
   }
 
   spec.platform = :ios
-  spec.ios.deployment_target = '8.0'
+  spec.ios.deployment_target = '14.0'
   spec.ios.frameworks = 'UIKit'
   spec.module_name = 'YogaKit'
-  spec.dependency 'Yoga', '~> 1.14'
+  spec.dependency 'Yoga'
   # Fixes the bug related the xcode 11 not able to find swift related frameworks.
   # https://github.com/Carthage/Carthage/issues/2825
   # https://twitter.com/krzyzanowskim/status/1151549874653081601?s=21
