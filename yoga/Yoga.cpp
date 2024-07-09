@@ -4078,24 +4078,34 @@ static void YGRoundToPixelGrid(
       !YGDoubleEqual(fmod(nodeHeight * pointScaleFactor, 1.0), 0) &&
       !YGDoubleEqual(fmod(nodeHeight * pointScaleFactor, 1.0), 1.0);
 
+  float roundedRight = YGRoundValueToPixelGrid(
+      absoluteNodeRight,
+      pointScaleFactor,
+      (textRounding && hasFractionalWidth),
+      (textRounding && !hasFractionalWidth));
+  float roundedLeft = YGRoundValueToPixelGrid(
+      absoluteNodeLeft, pointScaleFactor, false, textRounding);
+  // Round (right - left) as well as substraction might result in a misaligned result
+  // due to floating point errors
+  float roundedWidth = YGRoundValueToPixelGrid(
+      roundedRight - roundedLeft, pointScaleFactor, false, false);
   node->setLayoutDimension(
-      YGRoundValueToPixelGrid(
-          absoluteNodeRight,
-          pointScaleFactor,
-          (textRounding && hasFractionalWidth),
-          (textRounding && !hasFractionalWidth)) -
-          YGRoundValueToPixelGrid(
-              absoluteNodeLeft, pointScaleFactor, false, textRounding),
+      roundedWidth,
       YGDimensionWidth);
 
+  float roundedBottom = YGRoundValueToPixelGrid(
+      absoluteNodeBottom,
+      pointScaleFactor,
+      (textRounding && hasFractionalHeight),
+      (textRounding && !hasFractionalHeight));
+  float roundedTop = YGRoundValueToPixelGrid(
+      absoluteNodeTop, pointScaleFactor, false, textRounding);
+  // Round (bottom - top) as well as substraction might result in a misaligned result
+  // due to floating point errors
+  float roundedHeight = YGRoundValueToPixelGrid(
+      roundedBottom - roundedTop, pointScaleFactor, false, false);
   node->setLayoutDimension(
-      YGRoundValueToPixelGrid(
-          absoluteNodeBottom,
-          pointScaleFactor,
-          (textRounding && hasFractionalHeight),
-          (textRounding && !hasFractionalHeight)) -
-          YGRoundValueToPixelGrid(
-              absoluteNodeTop, pointScaleFactor, false, textRounding),
+      roundedHeight,
       YGDimensionHeight);
 
   const uint32_t childCount = YGNodeGetChildCount(node);
